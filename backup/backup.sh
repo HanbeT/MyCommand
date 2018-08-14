@@ -60,19 +60,22 @@ done
 
 nowDate=`date '+%Y%m%d'`
 
-dirPath=""
-if [ ${dirFlg} -eq 1 ]; then
+if [ ${dirFlg} -eq 0 ]; then
+  for target in ${paramList[@]}
+  do
+    checkBranch ${target}.${nowDate}
+    branch=$?
+    cp -rp ${target} ${target}.${nowDate}.`printf ${PADDINGNUM} ${branch}`
+  done
+else
   checkBranch ${nowDate}.
   branch=$?
-  dirPath=${nowDate}.`printf ${PADDINGNUM} ${branch}`/
+  dirPath=${nowDate}.`printf ${PADDINGNUM} ${branch}`
   mkdir ${dirPath}
+  for target in ${paramList[@]}
+  do
+    cp -rp ${target} ${dirPath}/.
+  done
 fi
-
-for target in ${paramList[@]}
-do
-  checkBranch ${target}.${nowDate}
-  branch=$?
-  cp -rp ${target} ${dirPath}${target}.${nowDate}.`printf ${PADDINGNUM} ${branch}`
-done
 
 exit 0
