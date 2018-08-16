@@ -1,4 +1,4 @@
-#!/usr/bin
+#!/bin/sh
 
 readonly PADDINGNUM="%02d"
 
